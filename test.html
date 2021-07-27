@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css"
+      rel="stylesheet"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"
+    />
+  </head>
+  <style>
+    .buttons {
+      width: 100%;
+    }
+    .board {
+      width: 100%;
+      height: 100px;
+      margin-bottom: 30px;
+    }
+    .level {
+      width: 400px;
+      height: 40px;
+      border: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+    }
+
+    .board_item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .v-btn {
+      margin: 10px;
+    }
+    .score {
+      width: 80%;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+    }
+    .red{
+      background: red;
+    }
+    .green{
+      background: green;
+    }
+  </style>
+  <body>
+    <div id="app">
+      <v-app>
+        <v-main>
+          <v-container class="d-flex justify-center flex-wrap">
+            <div class="board d-flex flex-row justify-space-around">
+              <div class="board_item">
+                <h1>You</h1>
+                (100)
+                <meter class="level" min="0" max="100" :value="level"></meter>
+              </div>
+              <div class="board_item">
+                <h1>Monster</h1>
+                (100)
+                <meter class="level" min="0" max="100" :value="level"></meter>
+              </div>
+            </div>
+            <v-card
+              class="buttons d-flex flex-row justify-space-around align-center"
+              elevation="15"
+            >
+              <template v-if="!start">
+                <div>
+                  <v-btn @click="attact" color="red" elevation="20">ATTACK</v-btn>
+                  <v-btn color="orange" elevation="20">SPECIAL ATTACK</v-btn>
+                  <v-btn color="green" elevation="20">HEAL</v-btn>
+                  <v-btn @click="start = !start" elevation="20">GIVE UP</v-btn>
+                </div>
+              </template>
+              <v-btn
+                @click="start = !start"
+                v-if="start"
+                color="green"
+                elevation="20"
+                >START THE GAME!</v-btn>
+            </v-card>
+            <v-card
+              class="buttons d-flex flex-column justify-center align-center flex-wrap-reverse pt-5 mt-5"
+              elevation="15">
+              <template >
+                <div style="width: 100%;" class="d-flex justify-center align-center flex-wrap " v-for="(result, index) in attact_result" :key="result">
+                  <v-alert  class="score"  color="red" v-html
+                  >{{result}}</v-alert>
+                </div>
+              </template>
+            </v-card>
+          </v-container>
+        </v-main>
+      </v-app>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          level: 20,
+          start: true,
+          attact_result: [],
+        },
+        methods: {
+          attact() {
+            var score1 = Math.floor(Math.random() * 10);
+            var score2 = Math.floor(Math.random() * 10);
+            this.attact_result.unshift.apply( this.attact_result,
+              ["<h1>Hello</h1>" + score1, score2]
+            );
+
+            console.log(this.attact_result);
+          },
+        },
+        vuetify: new Vuetify(),
+      });
+    </script>
+  </body>
+</html>
